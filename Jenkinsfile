@@ -37,6 +37,13 @@ def runtests(){
     cd $WORKSPACE/flux;
     ./gradlew --refresh-dependencies clean testCodeCoverageReport || true;
   '''
+
+  sh label:'print-coverage-summary', script: '''#!/bin/bash
+    cd $WORKSPACE/flux
+    chmod +x scripts/print-coverage-summary.sh
+    scripts/print-coverage-summary.sh || true
+  '''
+
   junit '**/*.xml'
 }
 
@@ -66,6 +73,18 @@ pipeline{
   }
 
   stages{
+
+    stage('validate-docs'){
+      agent{ label 'devExpLinuxPool'}
+      steps{
+        sh label:'validate-mermaid', script: '''#!/bin/bash
+          set -e
+          cd $WORKSPACE/flux
+          chmod +x scripts/validate-mermaid.sh
+          scripts/validate-mermaid.sh docs/architecture.md
+        '''
+      }
+    }
 
     stage('tests'){
       environment{

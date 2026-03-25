@@ -23,6 +23,11 @@ You can download the latest release of Flux from [the releases page](https://git
 
 For more information, please see [the user guide](https://marklogic.github.io/flux/).
 
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for environment setup, the Walk workflow, and PR expectations.
+New to the project? Paste [docs/onboarding-walk.md](docs/onboarding-walk.md) into Copilot Chat to get oriented quickly.
+
 ## Support
 
 Flux is maintained by Progress MarkLogic and distributed under the 

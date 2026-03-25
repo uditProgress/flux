@@ -7,10 +7,6 @@ import com.marklogic.flux.api.OrcFilesImporter;
 import com.marklogic.flux.api.ReadTabularFilesOptions;
 import com.marklogic.flux.api.StructuredDataImporter;
 import com.marklogic.flux.api.WriteStructuredDocumentsOptions;
-import com.marklogic.flux.impl.SparkUtil;
-import com.marklogic.flux.impl.TdeHelper;
-import org.apache.spark.sql.Dataset;
-import org.apache.spark.sql.Row;
 import picocli.CommandLine;
 
 import java.util.HashMap;
@@ -23,7 +19,7 @@ import java.util.function.Consumer;
         "defined at %nhttps://spark.apache.org/docs/latest/sql-data-sources-orc.html, and write JSON or " +
         "XML documents to MarkLogic."
 )
-public class ImportOrcFilesCommand extends AbstractImportFilesCommand<OrcFilesImporter> implements OrcFilesImporter {
+public class ImportOrcFilesCommand extends AbstractImportTabularFilesCommand<OrcFilesImporter> implements OrcFilesImporter {
 
     @CommandLine.Mixin
     private ReadOrcFilesParams readParams = new ReadOrcFilesParams();
@@ -37,22 +33,16 @@ public class ImportOrcFilesCommand extends AbstractImportFilesCommand<OrcFilesIm
     }
 
     @Override
-    protected IReadFilesParams getReadParams() {
+    protected ReadTabularFilesParams getTabularReadParams() {
         return readParams;
     }
 
     @Override
-    protected WriteStructuredDocumentParams getWriteParams() {
+    protected WriteStructuredDocumentParams getTabularWriteParams() {
         return writeParams;
     }
 
-    public static class ReadOrcFilesParams extends ReadFilesParams<ReadTabularFilesOptions> implements ReadTabularFilesOptions {
-
-        @CommandLine.Option(
-            names = "--uri-include-file-path",
-            description = "If true, each document URI will include the path of the originating file."
-        )
-        private boolean uriIncludeFilePath;
+    public static class ReadOrcFilesParams extends ReadTabularFilesParams {
 
         @CommandLine.Option(
             names = "--spark-prop",
@@ -62,100 +52,39 @@ public class ImportOrcFilesCommand extends AbstractImportFilesCommand<OrcFilesIm
         )
         private Map<String, String> additionalOptions = new HashMap<>();
 
-        @CommandLine.Mixin
-        private StructuredDataParams structuredDataParams = new StructuredDataParams();
-
         @Override
-        public Map<String, String> makeOptions() {
-            Map<String, String> options = super.makeOptions();
-            options.putAll(additionalOptions);
-            return options;
+        protected Map<String, String> getAdditionalOptions() {
+            return additionalOptions;
         }
 
         @Override
-        public ReadTabularFilesOptions additionalOptions(Map<String, String> options) {
+        protected void setAdditionalOptions(Map<String, String> options) {
             this.additionalOptions = options;
-            return this;
         }
-
-        @Override
-        @Deprecated
-        public ReadTabularFilesOptions groupBy(String columnName) {
-            structuredDataParams.setGroupBy(columnName);
-            return this;
-        }
-
-        @Override
-        @Deprecated
-        public ReadTabularFilesOptions aggregateColumns(String aggregationName, String... columns) {
-            structuredDataParams.aggregateColumns(aggregationName, columns);
-            return this;
-        }
-
-        @Override
-        @Deprecated
-        public ReadTabularFilesOptions orderAggregation(String aggregationName, String columnName, boolean ascending) {
-            structuredDataParams.orderAggregation(aggregationName, columnName, ascending);
-            return this;
-        }
-
-        @Override
-        public ReadTabularFilesOptions uriIncludeFilePath(boolean value) {
-            this.uriIncludeFilePath = value;
-            return this;
-        }
-
-        @Override
-        public ReadTabularFilesOptions drop(String... columns) {
-            structuredDataParams.drop(columns);
-            return this;
-        }
-    }
-
-    @Override
-    protected Dataset<Row> afterDatasetLoaded(Dataset<Row> dataset) {
-        if (readParams.uriIncludeFilePath) {
-            dataset = SparkUtil.addFilePathColumn(dataset);
-        }
-
-        dataset = readParams.structuredDataParams.applyTransformations(dataset);
-
-        TdeHelper.Result result = writeParams.newTdeHelper().logOrLoadTemplate(dataset.schema(), getConnectionParams());
-        if (TdeHelper.Result.TEMPLATE_LOGGED.equals(result)) {
-            return null;
-        }
-
-        return dataset;
     }
 
     @Override
     public OrcFilesImporter from(Consumer<ReadTabularFilesOptions> consumer) {
-        consumer.accept(readParams);
-        return this;
+        return applyFrom(consumer);
     }
 
     @Override
     public OrcFilesImporter from(String... paths) {
-        readParams.paths(paths);
-        return this;
+        return applyFromPaths(paths);
     }
 
     @Override
     public OrcFilesImporter to(Consumer<WriteStructuredDocumentsOptions> consumer) {
-        consumer.accept(writeParams);
-        return this;
+        return applyTo(consumer);
     }
 
     @Override
     public OrcFilesImporter where(String expression) {
-        readParams.structuredDataParams.where(expression);
-        return this;
+        return applyWhere(expression);
     }
 
     @Override
     public OrcFilesImporter groupBy(String columnName, Consumer<StructuredDataImporter.GroupByOptions<?>> consumer) {
-        readParams.structuredDataParams.setGroupBy(columnName);
-        consumer.accept(readParams.structuredDataParams);
-        return this;
+        return applyGroupBy(columnName, consumer);
     }
 }

@@ -7,8 +7,92 @@ application installed:
 4. Wait 10 to 20 seconds and verify that <http://localhost:8001> shows the MarkLogic admin screen before proceeding.
 5. Run `./gradlew -i mlDeploy` to deploy this project's test application.
 
-Next, run the following to pull a small model for the test instance of Ollama to use; this will be used by one or more
-embedder tests:
+> **New to the project?** See [docs/onboarding-walk.md](docs/onboarding-walk.md) for a condensed orientation you can
+> paste into Copilot Chat to get up to speed quickly.
+
+## Walk Workflow
+
+This project follows the **Walk** methodology — a plan-first, evidence-backed approach to every change. Whether you are
+fixing a bug, adding a feature, or refactoring, every PR should follow this cycle:
+
+```
+Plan → Implement → Verify → Document
+```
+
+### 1. Plan before you code
+
+Before writing any code, create a short plan that answers:
+
+- **What** are you changing and **why**?
+- **Which files** will be touched (aim for 2–4 per PR)?
+- **What evidence** will prove the change works (test output, coverage delta, screenshot)?
+- **How do you roll back** if something goes wrong?
+
+Include this plan in your PR description. You can draft it as a checklist, a table, or prose — the format matters less
+than having it written down before the first diff.
+
+### 2. Keep PRs small and reviewable
+
+- Target **2–4 files** of meaningful change per PR. If a change touches more, split it.
+- Each PR should have a **single clear purpose** (one bug fix, one feature, one refactor).
+- Prefer editing existing files over creating new ones to avoid file sprawl.
+
+### 3. Branching strategy
+
+| Branch | Purpose |
+|--------|---------|
+| `main` | Latest stable release |
+| `develop` | Integration branch — CI publishes from here |
+| `feature/<short-name>` | New features — branch from `develop`, merge back to `develop` |
+| `fix/<short-name>` | Bug fixes — same flow as features |
+| `refactor/<short-name>` | Structural improvements with no behavior change |
+
+Always branch from `develop` unless you are targeting a hotfix to `main`.
+
+### 4. PR expectations
+
+Every pull request must include:
+
+1. **A plan** — what, why, which files, expected impact (in the PR description).
+2. **Evidence** — test output, coverage summary, or a screenshot proving the change works.
+3. **Green CI** — the Jenkins pipeline must pass. If tests cannot run locally (e.g. no Java 17
+   toolchain), note that explicitly and rely on CI.
+4. **Rollback instructions** — a one-liner (`git revert <sha>`) or explicit steps if the change
+   is more involved.
+
+Use the [PR template](.github/PULL_REQUEST_TEMPLATE.md) — it prompts for all of the above.
+
+### 5. Using Copilot with this workflow
+
+Copilot is encouraged at every stage:
+
+| Stage | How to use Copilot |
+|-------|-------------------|
+| **Plan** | Ask Copilot to list entry points, identify duplication, or propose a refactor scope. |
+| **Implement** | Let Copilot generate diffs file-by-file. Review each diff before accepting. |
+| **Verify** | Ask Copilot to run tests, check for compilation errors, or validate diagrams. |
+| **Document** | Have Copilot draft the PR description, update architecture docs, or generate a coverage summary. |
+
+**Ground rule:** Always review Copilot output against the actual codebase. Copilot may hallucinate file paths or API
+signatures — verify before committing.
+
+### 6. Evidence checklist
+
+Before marking a PR ready for review, confirm:
+
+- [ ] Plan is written in the PR description
+- [ ] Tests pass (`./gradlew clean test`)
+- [ ] Coverage summary included (`bash scripts/print-coverage-summary.sh`)
+- [ ] Architecture diagram validated if docs changed (`bash scripts/validate-mermaid.sh`)
+- [ ] No new compiler warnings (`-Xlint:unchecked -Xlint:deprecation` are enforced)
+- [ ] Rollback path documented
+
+---
+
+## Development Environment Setup
+
+After completing the Docker and Gradle setup above, run the following to pull a small model for the test instance of
+Ollama to use; this will be used by one or more embedder tests:
 
     docker exec -it docker-tests-flux-ollama-1 ollama pull all-minilm
 
@@ -109,6 +193,47 @@ You can run `./gradlew clean testCodeCoverageReport` to run the tests and genera
 be written to `code-coverage-report/build`. Unfortunately though, Sonarqube does not appear to consume this data 
 correctly. For example, as of 2025-04-23, the Jacoco test report will show 84% coverage but Sonarqube will only report 
 76% coverage.
+
+## Running code coverage locally
+
+The project uses **JaCoCo** for code coverage, aggregated across all modules by the `code-coverage-report` subproject.
+
+### Quick start
+
+```bash
+# Run all tests and produce the aggregate JaCoCo report
+./gradlew clean testCodeCoverageReport
+```
+
+### Output locations
+
+| Artifact | Path |
+|----------|------|
+| Aggregate XML report | `code-coverage-report/build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.xml` |
+| Aggregate HTML report | `code-coverage-report/build/reports/jacoco/testCodeCoverageReport/html/index.html` |
+| flux-cli module XML | `flux-cli/build/reports/jacoco/test/jacocoTestReport.xml` |
+
+### Printing a coverage summary
+
+After generating the report you can print a quick summary to the terminal:
+
+```bash
+bash scripts/print-coverage-summary.sh
+```
+
+This parses the aggregate XML and prints instruction, branch, line, method, and class coverage percentages.
+Include the output in your PR description (see `.github/PULL_REQUEST_TEMPLATE.md` for the template).
+
+### How it works
+
+1. The `flux-cli` module applies the `jacoco` plugin and its `test` task is finalized by `jacocoTestReport` (see `flux-cli/build.gradle`).
+2. The `code-coverage-report` module applies the `jacoco-report-aggregation` plugin and depends on all testable modules (see `code-coverage-report/build.gradle`).
+3. Running `testCodeCoverageReport` executes tests in every module and merges their execution data into a single report.
+4. SonarQube reads the aggregate XML via the `sonar.coverage.jacoco.xmlReportPaths` property in the root `build.gradle`.
+
+### CI coverage
+
+The Jenkins pipeline already runs `testCodeCoverageReport` in the **tests** stage (see `Jenkinsfile`), so coverage data is produced on every build.
 
 ## Testing the documentation locally
 
