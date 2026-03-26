@@ -25,7 +25,9 @@ public abstract class OptionsUtil {
      * @return a map of all keys that have non-null values
      */
     public static Map<String, String> makeOptions(String... keysAndValues) {
-        Map<String, String> options = new HashMap<>();
+        // Pre-size to avoid rehashing; keysAndValues.length/2 pairs at 0.75 load factor.
+        int pairCount = keysAndValues.length / 2;
+        Map<String, String> options = new HashMap<>((int) (pairCount / 0.75) + 1);
         for (int i = 0; i < keysAndValues.length; i += 2) {
             String value = keysAndValues[i + 1];
             if (value != null && !value.isEmpty()) {
@@ -44,7 +46,12 @@ public abstract class OptionsUtil {
     }
 
     public static Map<String, String> addOptions(Map<String, String> options, String... keysAndValues) {
-        options.putAll(makeOptions(keysAndValues));
+        for (int i = 0; i < keysAndValues.length; i += 2) {
+            String value = keysAndValues[i + 1];
+            if (value != null && !value.isEmpty()) {
+                options.put(keysAndValues[i], value);
+            }
+        }
         return options;
     }
 
