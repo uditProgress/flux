@@ -1,0 +1,29 @@
+# Flux Public API Contract
+# This file defines the expected set of public static factory methods on the Flux interface.
+# Format: methodName=ReturnType
+# If you add or remove an API method, update this file and the contract test will tell you what changed.
+copyDocuments=DocumentCopier
+customExportDocuments=CustomDocumentsExporter
+customExportRows=CustomRowsExporter
+customImport=CustomImporter
+exportArchiveFiles=ArchiveFilesExporter
+exportAvroFiles=AvroFilesExporter
+exportDelimitedFiles=DelimitedFilesExporter
+exportGenericFiles=GenericFilesExporter
+exportJdbc=JdbcExporter
+exportJsonLinesFiles=JsonLinesFilesExporter
+exportOrcFiles=OrcFilesExporter
+exportParquetFiles=ParquetFilesExporter
+exportRdfFiles=RdfFilesExporter
+importAggregateJsonFiles=AggregateJsonFilesImporter
+importAggregateXmlFiles=AggregateXmlFilesImporter
+importArchiveFiles=ArchiveFilesImporter
+importAvroFiles=AvroFilesImporter
+importDelimitedFiles=DelimitedFilesImporter
+importGenericFiles=GenericFilesImporter
+importJdbc=JdbcImporter
+importMlcpArchiveFiles=MlcpArchiveFilesImporter
+importOrcFiles=OrcFilesImporter
+importParquetFiles=ParquetFilesImporter
+importRdfFiles=RdfFilesImporter
+reprocess=Reprocessor

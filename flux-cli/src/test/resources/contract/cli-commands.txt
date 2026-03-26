@@ -1,0 +1,30 @@
+# CLI Command Contract
+# This file defines the expected set of CLI subcommand names registered in Main.java.
+# Each line is one command name exactly as shown in `./bin/flux help`.
+# If you add or remove a CLI command, update this file and the contract test will tell you what changed.
+copy
+custom-export-documents
+custom-export-rows
+custom-import
+export-archive-files
+export-avro-files
+export-delimited-files
+export-files
+export-jdbc
+export-json-lines-files
+export-orc-files
+export-parquet-files
+export-rdf-files
+import-aggregate-json-files
+import-aggregate-xml-files
+import-archive-files
+import-avro-files
+import-delimited-files
+import-files
+import-jdbc
+import-mlcp-archive-files
+import-orc-files
+import-parquet-files
+import-rdf-files
+reprocess
+version

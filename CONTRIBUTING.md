@@ -83,9 +83,25 @@ Before marking a PR ready for review, confirm:
 - [ ] Plan is written in the PR description
 - [ ] Tests pass (`./gradlew clean test`)
 - [ ] Coverage summary included (`bash scripts/print-coverage-summary.sh`)
+- [ ] Contract tests pass if CLI commands or API methods changed
 - [ ] Architecture diagram validated if docs changed (`bash scripts/validate-mermaid.sh`)
 - [ ] No new compiler warnings (`-Xlint:unchecked -Xlint:deprecation` are enforced)
 - [ ] Rollback path documented
+
+### 7. Contract tests
+
+The `ContractTest` class validates two boundaries against golden files:
+
+| Boundary | Golden file | What it checks |
+|----------|------------|----------------|
+| CLI command registry | `flux-cli/src/test/resources/contract/cli-commands.txt` | Every subcommand name registered in `Main.java` |
+| Public API surface | `flux-cli/src/test/resources/contract/api-methods.txt` | Every static factory method on `Flux.java` |
+
+If you add or remove a CLI command or API method, `ContractTest` will fail. To fix:
+
+1. Run the test — the failure message shows the expected vs. actual list.
+2. Edit the corresponding golden file (one entry per line, sorted alphabetically).
+3. Re-run and confirm green.
 
 ---
 
