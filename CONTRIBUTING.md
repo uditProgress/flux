@@ -299,6 +299,45 @@ Example of using the existing config to copy from port 8015 to port 8016 in the 
   --output-thread-count 3 --partitions-per-forest 1 --output-batch-size 200
 ```
 
+## Upgrading dependencies
+
+When upgrading a dependency, follow this process:
+
+1. **Check availability** — verify the new version resolves:
+   ```
+   ./gradlew :flux-cli:dependencies --configuration runtimeClasspath | grep <dependency>
+   ```
+
+2. **Apply the upgrade** — edit the version in `gradle.properties` (for shared versions) or
+   `flux-cli/build.gradle` (for direct references).
+
+3. **Verify resolution** — ensure no `FAILED` entries:
+   ```
+   ./gradlew :flux-cli:dependencies --configuration runtimeClasspath | grep FAILED
+   ```
+
+4. **Run the test suite** — `./gradlew clean test`.
+
+5. **Update NOTICE.txt** — update version numbers in the dependency table, license listing,
+   and NOTICE text sections.
+
+6. **Update constraint comments** — if any `build.gradle` constraint references the old
+   version in its `because` string, update it.
+
+7. **Document rollback** — include the rollback command in the commit/PR (e.g.,
+   `sed -i 's/tikaVersion=3.3.0/tikaVersion=3.2.3/' gradle.properties`).
+
+### Key version properties in `gradle.properties`
+
+| Property | Current | Scope |
+|---|---|---|
+| `picocliVersion` | 4.7.7 | CLI framework (30+ files) |
+| `sparkVersion` | 4.1.1 | Core data engine — **high risk** |
+| `hadoopVersion` | 3.4.2 | Aligned with Spark — **high risk** |
+| `awssdkVersion` | 2.29.52 | Aligned with Hadoop — **medium risk** |
+| `langchain4jVersion` | 1.11.0 | Embedding modules |
+| `tikaVersion` | 3.3.0 | Document parsing (no direct API usage) |
+
 ## Testing against a separate Spark cluster
 
 This section describes how to test the ETL tool against a separate Spark cluster instead of having the tool stand up

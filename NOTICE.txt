@@ -81,7 +81,7 @@ Apache License 2.0:
   Apache Software Foundation       | Apache Ivy                               | 2.5.3
   Apache Software Foundation       | Apache JempBox                           | 1.8.17
   Apache Software Foundation       | Apache Thrift                            | 0.22.0
-  Apache Software Foundation       | Apache Tika                              | 3.2.3
+  Apache Software Foundation       | Apache Tika                              | 3.3.0
   Apache Software Foundation       | OpenNLP Tools                            | 2.5.4
   Apache Software Foundation       | Spark Avro                               | 4.1.1
   Apache Software Foundation       | Spark Project Catalyst                   | 4.1.1
@@ -244,14 +244,14 @@ Apache License 2.0:
   The Apache Software Foundation   | datasketches-java                        | 6.2.0
   The Apache Software Foundation   | org.apache.datasketches:datasketches…    | 3.0.2
                                    | > -memory                                |
-  The Apache Software Foundation   | tika-parser-html-module                  | 3.2.3
-  The Apache Software Foundation   | tika-parser-mail-commons                 | 3.2.3
-  The Apache Software Foundation   | tika-parser-microsoft-module             | 3.2.3
-  The Apache Software Foundation   | tika-parser-pdf-module                   | 3.2.3
-  The Apache Software Foundation   | tika-parser-text-module                  | 3.2.3
-  The Apache Software Foundation   | tika-parser-xml-module                   | 3.2.3
-  The Apache Software Foundation   | tika-parser-xmp-commons                  | 3.2.3
-  The Apache Software Foundation   | tika-parser-zip-commons                  | 3.2.3
+  The Apache Software Foundation   | tika-parser-html-module                  | 3.3.0
+  The Apache Software Foundation   | tika-parser-mail-commons                 | 3.3.0
+  The Apache Software Foundation   | tika-parser-microsoft-module             | 3.3.0
+  The Apache Software Foundation   | tika-parser-pdf-module                   | 3.3.0
+  The Apache Software Foundation   | tika-parser-text-module                  | 3.3.0
+  The Apache Software Foundation   | tika-parser-xml-module                   | 3.3.0
+  The Apache Software Foundation   | tika-parser-xmp-commons                  | 3.3.0
+  The Apache Software Foundation   | tika-parser-zip-commons                  | 3.3.0
   The Guava Authors                | Guava InternalFutureFailureAccess and…   | 1.0.1
                                    | > InternalFutures                        |
   The Netty Project                | HTTP functionality for the Reactor…      | 1.2.13
@@ -531,7 +531,7 @@ Apache PDFBox io 3.0.7, Apache PDFBox tools 3.0.7, Apache POI - OOXML Schemas
 (lite) 5.4.1, Apache POI 5.4.1, Apache Parquet Column 1.16.0, Apache Parquet
 Common 1.16.0, Apache Parquet Encodings 1.16.0, Apache Parquet Format
 Structures 1.16.0, Apache Parquet Hadoop 1.16.0, Apache Parquet Jackson 1.16.0,
-Apache Thrift 0.22.0, Apache Tika 3.2.3, Apache XBean :: ASM shaded
+Apache Thrift 0.22.0, Apache Tika 3.3.0, Apache XBean :: ASM shaded
 (repackaged) 4.28, Apache XmpBox 3.0.5, Apache Yetus - Audience Annotations
 0.12.0, Apache ZooKeeper - Jute 3.9.5, Apache ZooKeeper 3.9.5, Arrow
 Compression 18.3.0, Arrow Format 18.3.0, Arrow Memory - Core 18.3.0, Arrow
@@ -600,10 +600,10 @@ org.osgi:org.osgi.annotation.versioning 1.1.2, org.osgi:org.osgi.resource
 Command Line Interface 4.7.7, reactor-core 3.7.11, reactor-core 3.7.14,
 scala-parallel-collections 1.2.0, scala-parser-combinators 2.4.0, scala-xml
 2.4.0, snappy-java 1.1.10.8, squareokio 3.16.4, stream-lib 2.9.8,
-tika-parser-html-module 3.2.3, tika-parser-mail-commons 3.2.3,
-tika-parser-microsoft-module 3.2.3, tika-parser-pdf-module 3.2.3,
-tika-parser-text-module 3.2.3, tika-parser-xml-module 3.2.3,
-tika-parser-xmp-commons 3.2.3, tika-parser-zip-commons 3.2.3, univocity-parsers
+tika-parser-html-module 3.3.0, tika-parser-mail-commons 3.3.0,
+tika-parser-microsoft-module 3.3.0, tika-parser-pdf-module 3.3.0,
+tika-parser-text-module 3.3.0, tika-parser-xml-module 3.3.0,
+tika-parser-xmp-commons 3.3.0, tika-parser-zip-commons 3.3.0, univocity-parsers
 2.9.1, and wildfly-openssl 2.1.4.Final.
 
   Apache License Version 2.0, January 2004
@@ -1686,7 +1686,7 @@ Contents of NOTICE text file for Apache Tika 3.2.3:
   (http://www.apache.org/).
 
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Contents of NOTICE text file for tika-parser-html-module 3.2.3:
+Contents of NOTICE text file for tika-parser-html-module 3.3.0:
 
   Apache Tika html parser module Copyright 2007-2025 The Apache Software
   Foundation
@@ -1696,7 +1696,7 @@ Contents of NOTICE text file for tika-parser-html-module 3.2.3:
   (http://www.apache.org/).
 
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Contents of NOTICE text file for tika-parser-mail-commons 3.2.3:
+Contents of NOTICE text file for tika-parser-mail-commons 3.3.0:
 
   Apache Tika mail commons Copyright 2007-2025 The Apache Software Foundation
 
@@ -1705,7 +1705,7 @@ Contents of NOTICE text file for tika-parser-mail-commons 3.2.3:
   (http://www.apache.org/).
 
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Contents of NOTICE text file for tika-parser-microsoft-module 3.2.3:
+Contents of NOTICE text file for tika-parser-microsoft-module 3.3.0:
 
   Apache Tika Microsoft parser module Copyright 2007-2025 The Apache Software
   Foundation
@@ -1715,7 +1715,7 @@ Contents of NOTICE text file for tika-parser-microsoft-module 3.2.3:
   (http://www.apache.org/).
 
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Contents of NOTICE text file for tika-parser-pdf-module 3.2.3:
+Contents of NOTICE text file for tika-parser-pdf-module 3.3.0:
 
   Apache Tika PDF parser module Copyright 2007-2025 The Apache Software
   Foundation
@@ -1725,7 +1725,7 @@ Contents of NOTICE text file for tika-parser-pdf-module 3.2.3:
   (http://www.apache.org/).
 
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Contents of NOTICE text file for tika-parser-text-module 3.2.3:
+Contents of NOTICE text file for tika-parser-text-module 3.3.0:
 
   Apache Tika text parser module Copyright 2007-2025 The Apache Software
   Foundation
@@ -1735,7 +1735,7 @@ Contents of NOTICE text file for tika-parser-text-module 3.2.3:
   (http://www.apache.org/).
 
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Contents of NOTICE text file for tika-parser-xml-module 3.2.3:
+Contents of NOTICE text file for tika-parser-xml-module 3.3.0:
 
   Apache Tika XML parser module Copyright 2007-2025 The Apache Software
   Foundation
@@ -1745,7 +1745,7 @@ Contents of NOTICE text file for tika-parser-xml-module 3.2.3:
   (http://www.apache.org/).
 
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Contents of NOTICE text file for tika-parser-xmp-commons 3.2.3:
+Contents of NOTICE text file for tika-parser-xmp-commons 3.3.0:
 
   Apache Tika XMP commons Copyright 2007-2025 The Apache Software Foundation
 
@@ -1754,7 +1754,7 @@ Contents of NOTICE text file for tika-parser-xmp-commons 3.2.3:
   (http://www.apache.org/).
 
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Contents of NOTICE text file for tika-parser-zip-commons 3.2.3:
+Contents of NOTICE text file for tika-parser-zip-commons 3.3.0:
 
   Apache Tika ZIP commons Copyright 2007-2025 The Apache Software Foundation
 
